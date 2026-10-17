@@ -2,7 +2,7 @@
 <html lang="vi" class="h-full bg-slate-50">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Vietnam.travel — Bảng Điều Khiển & Giới Thiệu Tính Năng Website Du Lịch Quốc Gia</title>
   
   <!-- Fonts: Manrope & JetBrains Mono -->
@@ -19,6 +19,14 @@
   <script>
     tailwind.config = {
       theme: {
+        screens: {
+          'xs': '420px',
+          'sm': '640px',
+          'md': '768px',
+          'lg': '1024px',
+          'xl': '1280px',
+          '2xl': '1440px',
+        },
         extend: {
           fontFamily: {
             sans: ['Manrope', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
@@ -40,14 +48,18 @@
   </script>
 
   <style>
-    /* Smooth scrolling */
-    html {
+    /* Strict Horizontal Overflow Prevention */
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
       scroll-behavior: smooth;
     }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
     }
     ::-webkit-scrollbar-track {
       background: #f1f5f9;
@@ -64,31 +76,32 @@
 <body class="min-h-full flex flex-col font-sans bg-slate-50 text-slate-800 antialiased text-[14px]">
 
   <!-- TOAST NOTIFICATIONS -->
-  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none max-w-[calc(100vw-2rem)]"></div>
 
   <!-- LIGHTBOX MODAL (Xem ảnh toàn màn hình không cắt xén) -->
-  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex flex-col items-center justify-center p-4" onclick="closeLightbox(event)">
-    <div class="relative max-w-6xl w-full max-h-[92vh] flex flex-col bg-white rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden" onclick="event.stopPropagation()">
-      <div class="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
-        <div class="flex items-center gap-2.5">
-          <span id="lb-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 font-mono">#01</span>
-          <h3 id="lb-title" class="font-bold text-sm sm:text-base text-white truncate">Chi tiết ảnh tính năng</h3>
+  <div id="lightbox-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm hidden flex flex-col items-center justify-center p-2 sm:p-4" onclick="closeLightbox(event)">
+    <div class="relative max-w-6xl w-full max-h-[96vh] sm:max-h-[92vh] flex flex-col bg-white rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden" onclick="event.stopPropagation()">
+      <div class="px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800 gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <span id="lb-badge" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 font-mono shrink-0">#01</span>
+          <h3 id="lb-title" class="font-bold text-xs sm:text-base text-white truncate">Chi tiết ảnh tính năng</h3>
         </div>
-        <div class="flex items-center gap-2">
-          <a id="lb-live-btn" href="#" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
-            <span>Mở Trang Thật</span>
+        <div class="flex items-center gap-2 shrink-0">
+          <a id="lb-live-btn" href="#" target="_blank" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+            <span class="hidden xs:inline">Mở Trang Thật</span>
+            <span class="xs:hidden">Web</span>
             <i data-lucide="external-link" class="size-3.5"></i>
           </a>
-          <button onclick="closeLightbox()" class="size-8 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors">
+          <button onclick="closeLightbox()" class="size-8 sm:size-9 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center justify-center transition-colors">
             <i data-lucide="x" class="size-5"></i>
           </button>
         </div>
       </div>
-      <div class="p-4 bg-slate-950 flex-1 overflow-auto flex items-center justify-center min-h-[300px]">
+      <div class="p-2 sm:p-4 bg-slate-950 flex-1 overflow-auto flex items-center justify-center min-h-[240px]">
         <img id="lb-image" src="" alt="Full view" class="max-w-full max-h-[75vh] object-contain rounded-md shadow-lg">
       </div>
-      <div class="px-5 py-2.5 bg-slate-900 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
-        <span class="font-mono">Chuẩn hiển thị 100% nguyên bản • Không cắt xén</span>
+      <div class="px-4 sm:px-5 py-2.5 bg-slate-900 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
+        <span class="font-mono text-[11px] sm:text-xs">Chuẩn 100% nguyên bản • Không cắt xén</span>
         <button onclick="closeLightbox()" class="text-slate-300 hover:text-white font-medium">Đóng (Esc)</button>
       </div>
     </div>
@@ -96,85 +109,100 @@
 
   <!-- TOP HEADER & BRAND BAR -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
-    <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="size-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-900/10 shrink-0">
-          <i data-lucide="compass" class="size-6 animate-pulse"></i>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Vietnam.travel</h1>
-            <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 whitespace-nowrap">Bảng Giới Thiệu Tính Năng</span>
+    <div class="max-w-[1360px] mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-4">
+      
+      <!-- Row 1 (Mobile): Brand + Status + Mobile CTA -->
+      <div class="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3 min-w-0">
+        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+          <div class="size-9 sm:size-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-900/10 shrink-0">
+            <i data-lucide="compass" class="size-5 sm:size-6 animate-pulse"></i>
           </div>
-          <p class="text-xs text-slate-500 hidden sm:block">Tổng hợp 10 tính năng cốt lõi trên Cổng Thông Tin Du Lịch Quốc Gia</p>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 sm:gap-2">
+              <h1 class="font-bold text-slate-900 text-sm sm:text-base lg:text-lg leading-tight truncate">Vietnam.travel</h1>
+              <span class="hidden xs:inline-flex px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-100 text-emerald-800 whitespace-nowrap shrink-0">Bảng Tính Năng</span>
+            </div>
+            <p class="text-[11px] sm:text-xs text-slate-500 truncate hidden sm:block">10 tính năng cốt lõi cổng du lịch quốc gia</p>
+          </div>
         </div>
+
+        <!-- Mobile View Live Button -->
+        <a href="https://vietnam.travel/" target="_blank" class="sm:hidden min-h-[36px] px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center gap-1 shrink-0 shadow-xs">
+          <span>Web Thật</span>
+          <i data-lucide="external-link" class="size-3"></i>
+        </a>
       </div>
 
-      <!-- Header Actions -->
-      <div class="flex items-center gap-2.5">
-        <div class="relative hidden md:block w-64">
+      <!-- Row 2 (Mobile) / Right Column (Desktop): Search + Desktop Action -->
+      <div class="flex items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+        <!-- Live Search Input -->
+        <div class="relative flex-1 sm:w-44 md:w-56 lg:w-64">
           <i data-lucide="search" class="size-4 text-slate-400 absolute left-3 top-2.5"></i>
-          <input type="text" id="filter-input" oninput="filterFeatures(this.value)" placeholder="Lọc theo tên tính năng..." class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-emerald-500 focus:bg-white transition-all">
+          <input type="text" id="filter-input" oninput="filterFeatures(this.value)" placeholder="Lọc theo tên tính năng..." class="w-full bg-slate-100 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-emerald-500 focus:bg-white transition-all min-h-[36px]">
         </div>
 
-        <a href="https://vietnam.travel/" target="_blank" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-xs whitespace-nowrap">
+        <!-- Desktop View Live Button -->
+        <a href="https://vietnam.travel/" target="_blank" class="hidden sm:inline-flex min-h-[36px] px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs items-center gap-1.5 transition-colors shadow-xs whitespace-nowrap shrink-0">
           <span>Xem Web Thật</span>
           <i data-lucide="external-link" class="size-3.5"></i>
         </a>
       </div>
+
     </div>
   </header>
 
   <!-- HIGHLIGHT STATS STRIP -->
-  <div class="bg-emerald-900 text-emerald-100 py-3 px-4 border-b border-emerald-800 shadow-inner">
-    <div class="max-w-[1360px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+  <div class="bg-emerald-900 text-emerald-100 py-2.5 sm:py-3 px-3 sm:px-4 border-b border-emerald-800 shadow-inner">
+    <div class="max-w-[1360px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-3 text-xs">
       <div class="flex items-center gap-2 font-medium">
-        <span class="size-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="size-2 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
         <span class="text-white font-bold">10 Tính Năng Cốt Lõi Được Chọn Lọc</span>
-        <span class="text-emerald-300 hidden md:inline">• Trình bày chuẩn 2 cột • Ảnh rõ nét 100% không cắt xén</span>
+        <span class="text-emerald-300 hidden lg:inline">• Trình bày chuẩn 2 cột • Ảnh rõ nét 100% không cắt xén</span>
       </div>
-      <div class="flex items-center gap-4 text-[12px] font-mono">
-        <span class="flex items-center gap-1.5"><i data-lucide="globe-2" class="size-3.5 text-emerald-400"></i> 12 Ngôn Ngữ (i18n)</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="map" class="size-3.5 text-emerald-400"></i> 6 Vùng Du Lịch Số</span>
-        <span class="flex items-center gap-1.5"><i data-lucide="layout-grid" class="size-3.5 text-emerald-400"></i> 2 Card / Hàng</span>
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] sm:text-[12px] font-mono text-emerald-200">
+        <span class="flex items-center gap-1"><i data-lucide="globe-2" class="size-3.5 text-emerald-400 shrink-0"></i> 12 Ngôn Ngữ</span>
+        <span>•</span>
+        <span class="flex items-center gap-1"><i data-lucide="map" class="size-3.5 text-emerald-400 shrink-0"></i> 6 Vùng Du Lịch</span>
+        <span>•</span>
+        <span class="flex items-center gap-1"><i data-lucide="layout-grid" class="size-3.5 text-emerald-400 shrink-0"></i> 2 Cột Chuẩn</span>
       </div>
     </div>
   </div>
 
   <!-- MAIN SHOWCASE CONTAINER -->
-  <main class="max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+  <main class="max-w-[1360px] w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1">
     
     <!-- Introduction Banner Card -->
-    <div class="mb-8 p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="mb-6 sm:mb-8 p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
       <div>
-        <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
           <span>Danh Sách Tính Năng Hệ Thống Vietnam.travel</span>
           <span class="text-xs px-2.5 py-0.5 rounded-full font-mono font-bold bg-slate-100 text-slate-700">10 Mục</span>
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl">
+        <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
           Đã chọn lọc các tính năng trải nghiệm người dùng trọng tâm; loại bỏ banner video, tính năng đặt vé, footer và các trang blog/bài viết theo đúng yêu cầu. Mỗi hàng hiển thị chuẩn 2 tính năng với ảnh chụp màn hình đầy đủ không bị cắt xén.
         </p>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <span class="text-xs text-slate-500 font-mono">Bố cục: 2 Cột / Hàng</span>
+        <span class="text-xs text-slate-500 font-mono bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">Bố cục: 2 Cột / Hàng</span>
       </div>
     </div>
 
-    <!-- 2 COLUMNS PER ROW GRID -->
-    <div id="features-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- 2 COLUMNS PER ROW GRID (1 col on mobile, 2 cols on tablet & desktop) -->
+    <div id="features-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
       
       <!-- FEATURE 1: ĐA NGÔN NGỮ (PROMINENT FIRST) -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="đa ngôn ngữ multilingual i18n 12 thứ tiếng english việt">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-emerald-600 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#01</span>
-              <div>
-                <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider font-mono">Quốc Tế Hóa (i18n)</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Hệ Thống Đa Ngôn Ngữ Quốc Tế (Multilingual Switcher)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-emerald-600 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#01</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-emerald-700 uppercase tracking-wider font-mono block">Quốc Tế Hóa (i18n)</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Hệ Thống Đa Ngôn Ngữ Quốc Tế (Multilingual Switcher)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 whitespace-nowrap shrink-0">12 Thứ Tiếng</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 whitespace-nowrap shrink-0">12 Thứ Tiếng</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -182,19 +210,19 @@
           </p>
 
           <!-- Image Container (Preserved 100% Not Cropped) -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/17_multilingual_language_switcher.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/17_multilingual_language_switcher.png" alt="Hệ Thống Đa Ngôn Ngữ" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/17_multilingual_language_switcher.png', '#01 Hệ Thống Đa Ngôn Ngữ Quốc Tế (12 Ngôn Ngữ)', 'https://vietnam.travel/')">
+              <img src="screenshots_vietnam_travel/17_multilingual_language_switcher.png" alt="Hệ Thống Đa Ngôn Ngữ" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/17_multilingual_language_switcher.png', '#01 Hệ Thống Đa Ngôn Ngữ Quốc Tế (12 Ngôn Ngữ)', 'https://vietnam.travel/')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/17_multilingual_language_switcher.png', '#01 Hệ Thống Đa Ngôn Ngữ Quốc Tế (12 Ngôn Ngữ)', 'https://vietnam.travel/')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/17_multilingual_language_switcher.png', '#01 Hệ Thống Đa Ngôn Ngữ Quốc Tế (12 Ngôn Ngữ)', 'https://vietnam.travel/')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
           <!-- Feature Highlights -->
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-emerald-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Bao phủ 12 thị trường khách</span>
@@ -206,30 +234,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 2: SMART HEADER & LIVE WEATHER -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="smart header thời tiết realtime định vị gps vị trí">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#02</span>
-              <div>
-                <span class="text-[11px] font-bold text-blue-700 uppercase tracking-wider font-mono">Tiện Ích Đầu Trang</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Thanh Điều Hướng & Tiện Ích Thời Tiết (Smart Header)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#02</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-blue-700 uppercase tracking-wider font-mono block">Tiện Ích Đầu Trang</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Thanh Điều Hướng & Tiện Ích Thời Tiết (Smart Header)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100 whitespace-nowrap shrink-0">Live Weather</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-100 whitespace-nowrap shrink-0">Live Weather</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -237,18 +265,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/01_smart_header.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/01_smart_header.png" alt="Smart Header" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/01_smart_header.png', '#02 Thanh Điều Hướng & Thời Tiết Realtime', 'https://vietnam.travel/')">
+              <img src="screenshots_vietnam_travel/01_smart_header.png" alt="Smart Header" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/01_smart_header.png', '#02 Thanh Điều Hướng & Thời Tiết Realtime', 'https://vietnam.travel/')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/01_smart_header.png', '#02 Thanh Điều Hướng & Thời Tiết Realtime', 'https://vietnam.travel/')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/01_smart_header.png', '#02 Thanh Điều Hướng & Thời Tiết Realtime', 'https://vietnam.travel/')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-blue-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Định vị GPS tự động</span>
@@ -260,30 +288,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 3: TRIP SEARCH BAR -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="trip search bar where do you want to go tìm kiếm điểm đến">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#03</span>
-              <div>
-                <span class="text-[11px] font-bold text-amber-700 uppercase tracking-wider font-mono">Tìm Kiếm & Đề Xuất</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Bộ Lọc Tìm Kiếm Điểm Đến Nhanh (Trip Search Bar)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#03</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-amber-700 uppercase tracking-wider font-mono block">Tìm Kiếm & Đề Xuất</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Bộ Lọc Tìm Kiếm Điểm Đến Nhanh (Trip Search Bar)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-100 whitespace-nowrap shrink-0">Lọc 6 Vùng</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-100 whitespace-nowrap shrink-0">Lọc 6 Vùng</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -291,18 +319,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/03_trip_search.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/03_trip_search.png" alt="Trip Search Bar" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/03_trip_search.png', '#03 Bộ Lọc Tìm Kiếm Điểm Đến Nhanh', 'https://vietnam.travel/#trip-search')">
+              <img src="screenshots_vietnam_travel/03_trip_search.png" alt="Trip Search Bar" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/03_trip_search.png', '#03 Bộ Lọc Tìm Kiếm Điểm Đến Nhanh', 'https://vietnam.travel/#trip-search')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/03_trip_search.png', '#03 Bộ Lọc Tìm Kiếm Điểm Đến Nhanh', 'https://vietnam.travel/#trip-search')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/03_trip_search.png', '#03 Bộ Lọc Tìm Kiếm Điểm Đến Nhanh', 'https://vietnam.travel/#trip-search')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-amber-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Dropdown chọn vùng trực quan</span>
@@ -314,30 +342,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#trip-search" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#trip-search" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 4: INTERACTIVE REGION MAP -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="bản đồ số tương tác khám phá vùng miền explore by region">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#04</span>
-              <div>
-                <span class="text-[11px] font-bold text-teal-700 uppercase tracking-wider font-mono">Bản Đồ Số</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Bản Đồ Số Tương Tác Khám Phá Vùng Miền (Explore by Region)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#04</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-teal-700 uppercase tracking-wider font-mono block">Bản Đồ Số</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Bản Đồ Số Tương Tác Khám Phá Vùng Miền (Explore by Region)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-teal-50 text-teal-700 border border-teal-100 whitespace-nowrap shrink-0">Bản Đồ Số 6 Vùng</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-teal-50 text-teal-700 border border-teal-100 whitespace-nowrap shrink-0">Bản Đồ Số 6 Vùng</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -345,18 +373,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/04_explore_region.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/04_explore_region.png" alt="Interactive Region Map" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/04_explore_region.png', '#04 Bản Đồ Số Tương Tác Khám Phá Vùng Miền', 'https://vietnam.travel/#explore-region')">
+              <img src="screenshots_vietnam_travel/04_explore_region.png" alt="Interactive Region Map" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/04_explore_region.png', '#04 Bản Đồ Số Tương Tác Khám Phá Vùng Miền', 'https://vietnam.travel/#explore-region')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/04_explore_region.png', '#04 Bản Đồ Số Tương Tác Khám Phá Vùng Miền', 'https://vietnam.travel/#explore-region')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/04_explore_region.png', '#04 Bản Đồ Số Tương Tác Khám Phá Vùng Miền', 'https://vietnam.travel/#explore-region')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-teal-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Bản đồ click tương tác mượt mà</span>
@@ -368,30 +396,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#explore-region" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#explore-region" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 5: TOP DESTINATIONS -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="top destinations danh sách điểm đến hàng đầu hà nội hạ long huế đà nẵng">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#05</span>
-              <div>
-                <span class="text-[11px] font-bold text-indigo-700 uppercase tracking-wider font-mono">Điểm Đến Trọng Điểm</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Danh Sách Điểm Đến Hàng Đầu (Top Destinations)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#05</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-indigo-700 uppercase tracking-wider font-mono block">Điểm Đến Trọng Điểm</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Danh Sách Điểm Đến Hàng Đầu (Top Destinations)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 whitespace-nowrap shrink-0">18 Danh Thắng</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 whitespace-nowrap shrink-0">18 Danh Thắng</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -399,18 +427,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/05_top_destinations.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/05_top_destinations.png" alt="Top Destinations" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/05_top_destinations.png', '#05 Danh Sách Điểm Đến Hàng Đầu', 'https://vietnam.travel/#top-destinations')">
+              <img src="screenshots_vietnam_travel/05_top_destinations.png" alt="Top Destinations" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/05_top_destinations.png', '#05 Danh Sách Điểm Đến Hàng Đầu', 'https://vietnam.travel/#top-destinations')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/05_top_destinations.png', '#05 Danh Sách Điểm Đến Hàng Đầu', 'https://vietnam.travel/#top-destinations')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/05_top_destinations.png', '#05 Danh Sách Điểm Đến Hàng Đầu', 'https://vietnam.travel/#top-destinations')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-indigo-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Factsheet thời tiết từng điểm đến</span>
@@ -422,30 +450,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#top-destinations" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#top-destinations" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 6: EXPLORE BY INTEREST -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="khám phá theo sở thích phong cách explore by interest nature heritage food">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#06</span>
-              <div>
-                <span class="text-[11px] font-bold text-purple-700 uppercase tracking-wider font-mono">Cá Nhân Hóa Trải Nghiệm</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Khám Phá Theo Sở Thích & Phong Cách (Explore by Interest)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#06</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-purple-700 uppercase tracking-wider font-mono block">Cá Nhân Hóa Trải Nghiệm</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Khám Phá Theo Sở Thích & Phong Cách (Explore by Interest)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-purple-50 text-purple-700 border border-purple-100 whitespace-nowrap shrink-0">6 Trụ Cột Gu</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-purple-50 text-purple-700 border border-purple-100 whitespace-nowrap shrink-0">6 Trụ Cột Gu</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -453,18 +481,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/06_explore_interest.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/06_explore_interest.png" alt="Explore by Interest" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/06_explore_interest.png', '#06 Khám Phá Theo Sở Thích & Gu Du Lịch', 'https://vietnam.travel/#explore-interest')">
+              <img src="screenshots_vietnam_travel/06_explore_interest.png" alt="Explore by Interest" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/06_explore_interest.png', '#06 Khám Phá Theo Sở Thích & Gu Du Lịch', 'https://vietnam.travel/#explore-interest')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/06_explore_interest.png', '#06 Khám Phá Theo Sở Thích & Gu Du Lịch', 'https://vietnam.travel/#explore-interest')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/06_explore_interest.png', '#06 Khám Phá Theo Sở Thích & Gu Du Lịch', 'https://vietnam.travel/#explore-interest')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-purple-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Tập trung theo hành vi du khách</span>
@@ -476,30 +504,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#explore-interest" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#explore-interest" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 7: UPCOMING EVENTS CALENDAR -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="lịch sự kiện lễ hội thời gian thực upcoming events calendar">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#07</span>
-              <div>
-                <span class="text-[11px] font-bold text-rose-700 uppercase tracking-wider font-mono">Sự Kiện & Lễ Hội</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Lịch Sự Kiện & Lễ Hội Thời Gian Thực (Upcoming Events Calendar)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#07</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-rose-700 uppercase tracking-wider font-mono block">Sự Kiện & Lễ Hội</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Lịch Sự Kiện & Lễ Hội Thời Gian Thực (Upcoming Events Calendar)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-100 whitespace-nowrap shrink-0">Realtime Timeline</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-100 whitespace-nowrap shrink-0">Realtime Timeline</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -507,18 +535,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/07_upcoming_events.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/07_upcoming_events.png" alt="Upcoming Events" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/07_upcoming_events.png', '#07 Lịch Sự Kiện & Lễ Hội Thời Gian Thực', 'https://vietnam.travel/#upcoming-events')">
+              <img src="screenshots_vietnam_travel/07_upcoming_events.png" alt="Upcoming Events" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/07_upcoming_events.png', '#07 Lịch Sự Kiện & Lễ Hội Thời Gian Thực', 'https://vietnam.travel/#upcoming-events')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/07_upcoming_events.png', '#07 Lịch Sự Kiện & Lễ Hội Thời Gian Thực', 'https://vietnam.travel/#upcoming-events')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/07_upcoming_events.png', '#07 Lịch Sự Kiện & Lễ Hội Thời Gian Thực', 'https://vietnam.travel/#upcoming-events')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-rose-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Lọc theo dòng thời gian tháng</span>
@@ -530,30 +558,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#upcoming-events" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#upcoming-events" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 8: VIETNAM ITINERARIES -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="gợi ý lịch trình tour mẫu vietnam itineraries heritage adventure couples">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#08</span>
-              <div>
-                <span class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider font-mono">Tuyến Điểm Tour</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day (Vietnam Itineraries)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#08</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-emerald-700 uppercase tracking-wider font-mono block">Tuyến Điểm Tour</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day (Vietnam Itineraries)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 whitespace-nowrap shrink-0">Lộ Trình Chuẩn</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100 whitespace-nowrap shrink-0">Lộ Trình Chuẩn</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -561,18 +589,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/08_itineraries.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/08_itineraries.png" alt="Vietnam Itineraries" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/08_itineraries.png', '#08 Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day', 'https://vietnam.travel/#itineraries')">
+              <img src="screenshots_vietnam_travel/08_itineraries.png" alt="Vietnam Itineraries" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/08_itineraries.png', '#08 Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day', 'https://vietnam.travel/#itineraries')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/08_itineraries.png', '#08 Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day', 'https://vietnam.travel/#itineraries')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/08_itineraries.png', '#08 Gợi Ý Lộ Trình Tour Chuẩn Day-by-Day', 'https://vietnam.travel/#itineraries')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-emerald-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Bản đồ lộ trình tương tác từng ngày</span>
@@ -584,30 +612,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#itineraries" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#itineraries" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 9: SOCIAL WALL UGC -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="tường mạng xã hội du khách share your story instagram feed hashtag">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#09</span>
-              <div>
-                <span class="text-[11px] font-bold text-pink-700 uppercase tracking-wider font-mono">Social Proof (UGC)</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Tường Mạng Xã Hội Du Khách (Social Wall - Share Your Story)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#09</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-pink-700 uppercase tracking-wider font-mono block">Social Proof (UGC)</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Tường Mạng Xã Hội Du Khách (Social Wall - Share Your Story)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-pink-50 text-pink-700 border border-pink-100 whitespace-nowrap shrink-0">Instagram Feed</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-pink-50 text-pink-700 border border-pink-100 whitespace-nowrap shrink-0">Instagram Feed</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -615,18 +643,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/10_share_your_story.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/10_share_your_story.png" alt="Social Wall" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/10_share_your_story.png', '#09 Tường Mạng Xã Hội Du Khách (Instagram Feed)', 'https://vietnam.travel/#share-your-story')">
+              <img src="screenshots_vietnam_travel/10_share_your_story.png" alt="Social Wall" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/10_share_your_story.png', '#09 Tường Mạng Xã Hội Du Khách (Instagram Feed)', 'https://vietnam.travel/#share-your-story')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/10_share_your_story.png', '#09 Tường Mạng Xã Hội Du Khách (Instagram Feed)', 'https://vietnam.travel/#share-your-story')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/10_share_your_story.png', '#09 Tường Mạng Xã Hội Du Khách (Instagram Feed)', 'https://vietnam.travel/#share-your-story')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-pink-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Kiểm duyệt ảnh du khách trước khi đăng</span>
@@ -638,30 +666,30 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/#share-your-story" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/#share-your-story" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
 
       <!-- FEATURE 10: TRAVEL OFFERS & PACKAGES -->
       <article class="feature-card bg-white rounded-2xl border border-slate-200 shadow-2xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden" data-title="sàn ưu đãi gói dịch vụ khuyến mãi travel offers packages combo">
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-              <span class="size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">#10</span>
-              <div>
-                <span class="text-[11px] font-bold text-cyan-700 uppercase tracking-wider font-mono">Ưu Đãi & Khuyến Mãi</span>
-                <h3 class="font-bold text-slate-900 text-base leading-snug">Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch (Travel Offers & Packages)</h3>
+        <div class="p-4 sm:p-6">
+          <div class="flex items-start justify-between gap-2 sm:gap-3 mb-3">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="size-7 sm:size-8 rounded-lg bg-slate-800 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs">#10</span>
+              <div class="min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-cyan-700 uppercase tracking-wider font-mono block">Ưu Đãi & Khuyến Mãi</span>
+                <h3 class="font-bold text-slate-900 text-sm sm:text-base leading-snug">Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch (Travel Offers & Packages)</h3>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-cyan-50 text-cyan-700 border border-cyan-100 whitespace-nowrap shrink-0">Gói Dịch Vụ</span>
+            <span class="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-semibold bg-cyan-50 text-cyan-700 border border-cyan-100 whitespace-nowrap shrink-0">Gói Dịch Vụ</span>
           </div>
 
           <p class="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
@@ -669,18 +697,18 @@
           </p>
 
           <!-- Image Container -->
-          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-3 flex items-center justify-center relative group min-h-[140px]">
+          <div class="w-full bg-slate-900/[0.03] border border-slate-200/90 rounded-xl p-2 sm:p-3 flex items-center justify-center relative group min-h-[140px]">
             <picture>
               <source srcset="screenshots_vietnam_travel/webp/16_travel_offers.webp" type="image/webp">
-              <img src="screenshots_vietnam_travel/16_travel_offers.png" alt="Travel Offers" class="w-full h-auto max-h-[380px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/16_travel_offers.png', '#10 Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch', 'https://vietnam.travel/travel-offers')">
+              <img src="screenshots_vietnam_travel/16_travel_offers.png" alt="Travel Offers" class="w-full h-auto max-h-[380px] sm:max-h-[420px] object-contain rounded-lg shadow-2xs group-hover:scale-[1.01] transition-transform duration-300 cursor-zoom-in" onclick="openLightbox('screenshots_vietnam_travel/16_travel_offers.png', '#10 Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch', 'https://vietnam.travel/travel-offers')">
             </picture>
-            <button onclick="openLightbox('screenshots_vietnam_travel/16_travel_offers.png', '#10 Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch', 'https://vietnam.travel/travel-offers')" class="absolute bottom-3 right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+            <button onclick="openLightbox('screenshots_vietnam_travel/16_travel_offers.png', '#10 Sàn Ưu Đãi & Gói Dịch Vụ Du Lịch', 'https://vietnam.travel/travel-offers')" class="absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 px-2.5 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-900 text-white text-[11px] font-semibold flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity backdrop-blur-xs min-h-[32px]">
               <i data-lucide="maximize-2" class="size-3"></i>
-              <span>Phóng to ảnh</span>
+              <span>Phóng to</span>
             </button>
           </div>
 
-          <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
             <div class="p-2 rounded-lg bg-slate-50 border border-slate-100 flex items-center gap-2">
               <i data-lucide="check" class="size-3.5 text-cyan-600 shrink-0"></i>
               <span class="text-slate-700 font-medium">Liên kết đối tác lữ hành tin cậy</span>
@@ -692,14 +720,14 @@
           </div>
         </div>
 
-        <div class="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between">
+        <div class="px-4 sm:px-6 py-3 bg-slate-50/80 border-t border-slate-100 flex flex-col xs:flex-row items-stretch xs:items-center justify-between gap-2.5">
           <span class="inline-flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-            <span class="size-2 rounded-full bg-emerald-500"></span>
+            <span class="size-2 rounded-full bg-emerald-500 shrink-0"></span>
             Đang hoạt động trên web
           </span>
-          <a href="https://vietnam.travel/travel-offers" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center gap-1.5 transition-colors border border-emerald-200/60">
+          <a href="https://vietnam.travel/travel-offers" target="_blank" class="min-h-[38px] px-3.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors border border-emerald-200/60 shrink-0">
             <span>Xem trực tiếp trên Web</span>
-            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600"></i>
+            <i data-lucide="arrow-up-right" class="size-3.5 text-emerald-600 shrink-0"></i>
           </a>
         </div>
       </article>
@@ -738,30 +766,6 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
     });
-
-    // Toast Feedback
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = `px-4 py-2.5 rounded-xl text-xs font-semibold text-white shadow-xl flex items-center gap-2 pointer-events-auto transition-all transform duration-200 ${
-        type === 'success' ? 'bg-emerald-600' : 'bg-slate-800'
-      }`;
-      toast.innerHTML = `
-        <i data-lucide="check-circle" class="size-4 shrink-0"></i>
-        <span>${message}</span>
-      `;
-      container.appendChild(toast);
-      lucide.createIcons({ root: toast });
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-10px)';
-        setTimeout(() => toast.remove(), 250);
-      }, 2500);
-    }
-
-    function toggleFeatureToast(name, isChecked) {
-      showToast(`Đã ${isChecked ? 'BẬT' : 'TẠM TẮT'} tính năng: ${name}`);
-    }
 
     // Lightbox Controls
     function openLightbox(imgSrc, title, liveUrl) {
